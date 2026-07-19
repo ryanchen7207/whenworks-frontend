@@ -20,7 +20,7 @@ function formatDay(dateStr) {
   return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
 }
 
-export default function AvailabilityGrid({ slots, availability, onChange }) {
+export default function AvailabilityGrid({ slots, availability, onChange, busySlots }) {
   const days = groupByDay(slots);
 
   function handleClick(slot) {
@@ -30,10 +30,13 @@ export default function AvailabilityGrid({ slots, availability, onChange }) {
   return (
     <div className="grid-wrap">
       <div className="legend">
-        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--unavailable)" }} /> Unavailable (default)</div>
-        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--avoid)" }} /> Avoid</div>
-        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--okay)" }} /> Okay</div>
-        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--preferred)" }} /> Preferred</div>
+        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--paper)", border: "1px solid var(--border)" }} /> Unavailable</div>
+        <div className="legend-item"><span className="legend-swatch" style={{ background: "#e3ddff" }} /> Avoid</div>
+        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--teal)" }} /> Okay</div>
+        <div className="legend-item"><span className="legend-swatch" style={{ background: "var(--violet)" }} /> Preferred</div>
+        {busySlots?.size > 0 && (
+          <div className="legend-item"><span className="legend-swatch block busy" style={{ width: 13, height: 13 }} /> Busy (from calendar)</div>
+        )}
       </div>
 
       {Object.entries(days).map(([date, blocks]) => (
@@ -42,10 +45,11 @@ export default function AvailabilityGrid({ slots, availability, onChange }) {
           <div className="grid-blocks">
             {blocks.map(({ slot, time }) => {
               const status = availability[slot];
+              const isBusy = !status && busySlots?.has(slot);
               return (
                 <div
                   key={slot}
-                  className={`block ${status || ""}`}
+                  className={`block ${status || (isBusy ? "busy" : "")}`}
                   onClick={() => handleClick(slot)}
                   title="Click to cycle: unavailable → preferred → okay → avoid"
                 >

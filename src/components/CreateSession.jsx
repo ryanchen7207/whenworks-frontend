@@ -45,7 +45,9 @@ export default function CreateSession() {
   }
 
   return (
-    <div className="card">
+    <div className="section" style={{ paddingTop: 24 }}>
+    <div className="container">
+    <div className="card card-narrow">
       <h2>Create a session</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">What's this for?</label>
@@ -95,10 +97,12 @@ export default function CreateSession() {
         </div>
 
         {error && <div className="error">{error}</div>}
-        <button type="submit" disabled={loading}>
+        <button className="btn btn-primary btn-block" type="submit" disabled={loading} style={{ marginTop: 18 }}>
           {loading ? "Creating…" : "Create session"}
         </button>
       </form>
+    </div>
+    </div>
     </div>
   );
 }

@@ -1,19 +1,43 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import Nav from "./components/Nav.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Landing from "./pages/Landing.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 import CreateSession from "./components/CreateSession.jsx";
 import SessionPage from "./components/SessionPage.jsx";
 
 export default function App() {
   return (
-    <div className="container">
-      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-        <h1>WhenWorks</h1>
-      </Link>
-      <p className="subtitle">Find the meeting time that actually works — no login, no back-and-forth.</p>
-
-      <Routes>
-        <Route path="/" element={<CreateSession />} />
-        <Route path="/s/:id" element={<SessionPage />} />
-      </Routes>
-    </div>
+    <AuthProvider>
+      <div className="page">
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute>
+                <CreateSession />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/s/:id" element={<SessionPage />} />
+        </Routes>
+        <div className="footer">WhenWorks — built for students, by students.</div>
+      </div>
+    </AuthProvider>
   );
 }
