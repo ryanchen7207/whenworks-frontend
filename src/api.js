@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://whenworks-backend.onrender.com";
 // After deploying your backend, change the line above to your live URL,
 // e.g. const BASE_URL = "https://whenworks-backend.onrender.com";
 
