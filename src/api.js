@@ -1,6 +1,6 @@
-const BASE_URL = "https://whenworks-backend.onrender.com";
+export const BASE_URL = "http://localhost:4000";
 // After deploying your backend, change the line above to your live URL,
-// e.g. const BASE_URL = "https://whenworks-backend.onrender.com";
+// e.g. export const BASE_URL = "https://whenworks-backend.onrender.com";
 
 function getToken() {
   return localStorage.getItem("whenworks_token");
@@ -42,10 +42,16 @@ export function getMySessions() {
   return request("/sessions/mine");
 }
 export function importIcs(id, icsText) {
-  return request(`/sessions/${id}/import-ics`, {
-    method: "POST",
-    body: JSON.stringify({ icsText }),
-  });
+  return request(`/sessions/${id}/import-ics`, { method: "POST", body: JSON.stringify({ icsText }) });
+}
+export function getGoogleBusy(id) {
+  return request(`/sessions/${id}/google-busy`);
+}
+export function getTemplateBusy(id, templateId) {
+  return request(`/sessions/${id}/template-busy/${templateId}`);
+}
+export function confirmSlot(id, slotId) {
+  return request(`/sessions/${id}/confirm`, { method: "POST", body: JSON.stringify({ slotId }) });
 }
 
 // --- Auth ---
@@ -58,8 +64,11 @@ export function login(email, password) {
 export function getMe() {
   return request("/auth/me");
 }
+export function googleSignInUrl() {
+  return `${BASE_URL}/auth/google/start`;
+}
 
-// --- Templates (saved recurring commitments) ---
+// --- Templates ---
 export function getTemplates() {
   return request("/templates");
 }

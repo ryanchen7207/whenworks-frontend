@@ -61,7 +61,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section" id="features">
         <div className="section-head">
           <h2>Built for how students actually schedule</h2>
           <p>Not a generic meeting poll — this is tuned for recurring school groups.</p>

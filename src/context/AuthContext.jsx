@@ -37,8 +37,15 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
+  // Called by the /oauth-complete page after Google redirects back with a token.
+  async function completeGoogleLogin(token) {
+    localStorage.setItem("whenworks_token", token);
+    const { user } = await api.getMe();
+    setUser(user);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, signup: doSignup, login: doLogin, logout: doLogout }}>
+    <AuthContext.Provider value={{ user, loading, signup: doSignup, login: doLogin, logout: doLogout, completeGoogleLogin }}>
       {children}
     </AuthContext.Provider>
   );

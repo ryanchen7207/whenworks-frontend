@@ -38,7 +38,10 @@ export default function Dashboard() {
             ) : (
               sessions.map((s) => (
                 <div className="result-item" key={s.id}>
-                  <div className="result-time">{s.title}</div>
+                  <div className="result-time">
+                    {s.title}
+                    {s.confirmedSlot && <span style={{ color: "#067a5f", marginLeft: 8, fontSize: 12 }}>✓ locked in</span>}
+                  </div>
                   <div className="result-meta" style={{ marginRight: 14 }}>
                     {s.participantCount} responded
                   </div>
